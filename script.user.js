@@ -8,7 +8,7 @@
 // @version        1.0.1
 // @updateURL      http://userscripts.org/scripts/source/138102.meta.js
 // @downloadURL    http://userscripts.org/scripts/source/138102.user.js
-// @date           2012-07-10
+// @date           2012-08-27
 // ==/UserScript==
 
 /*
