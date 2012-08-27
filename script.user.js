@@ -4,8 +4,8 @@
 // @descrption     Offers some tools that facilitate handling artists.
 // @author         Z4ppy
 // @include        https://ssl.what.cd/torrents.php?id=*
-// @include        http://what.cd/torrents.php?id=*
-// @version        1.0
+// @include        https://what.cd/torrents.php?id=*
+// @version        1.0.1
 // @updateURL      http://userscripts.org/scripts/source/138102.meta.js
 // @downloadURL    http://userscripts.org/scripts/source/138102.user.js
 // @date           2012-07-10
@@ -14,6 +14,7 @@
 /*
 Changelog:
 1.0     Initial release
+1.0.1   Fix @include for https://what.cd
  */
 
 
