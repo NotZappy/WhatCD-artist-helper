@@ -5,37 +5,49 @@
 // @author         Z4ppy
 // @include        https://ssl.what.cd/torrents.php?id=*
 // @include        https://what.cd/torrents.php?id=*
-// @version        1.0.1
-// @updateURL      http://userscripts.org/scripts/source/138102.meta.js
-// @downloadURL    http://userscripts.org/scripts/source/138102.user.js
-// @date           2012-08-27
+// @version        1.0.2
+// @date           2013-07-29
 // ==/UserScript==
 
 /*
 Changelog:
 1.0     Initial release
-1.0.1   Fix @include for https://what.cd
- */
+1.0.1   Fix for https://what.cd
+1.0.2   Fix display issue in the artist list and toggling
+*/
 
 
 function runToggleEditingTools() {
-    var tNi;
+	var tNi;
 	if(toggled) {
 		//make them visible again
 		for(tNi = 0; tNi < toggleNodes.length; tNi++) {
-			toggleNodes[tNi].style.display = '';
+			if (toggleNodes[tNi].nodeType == 3) {
+				// text node
+				toggleNodes[tNi].nodeValue = toggleNodes[tNi].oldValue;
+			} else {
+				// standard node
+				toggleNodes[tNi].style.display = '';
+			}
 		}
 	} else {
 		//hide IDs and delete links
 		for(tNi = 0; tNi < toggleNodes.length; tNi++) {
-			toggleNodes[tNi].style.display = 'none';
+			if (toggleNodes[tNi].nodeType == 3) {
+				// text node
+				toggleNodes[tNi].oldValue = toggleNodes[tNi].nodeValue;
+				toggleNodes[tNi].nodeValue = '';
+			} else {
+				// standard node
+				toggleNodes[tNi].style.display = 'none';
+			}
 		}
 	}
 	toggled = !toggled;
 }
 
 function initToggleEditingTools() {
-    var sp, as, tNi, i, toggleedit_a, nS;
+	var sp, as, tNi, i, toggleedit_a, nS;
 
 	//add the [Toggle Edit Tools] link
 	sp = document.getElementById('artist_list').parentNode.getElementsByTagName('span')[0];
@@ -47,8 +59,8 @@ function initToggleEditingTools() {
 	sp.appendChild(toggleedit_a);
 
 	//find all Nodes that are supposed to be hidden on runToggleEditingTools()
-    toggleNodes[0] = sp.childNodes[0]; // [Edit] link
-    toggleNodes[1] = addartist_box; // Add artist box
+	toggleNodes[0] = sp.childNodes[0]; // [Edit] link
+	toggleNodes[1] = addartist_box; // Add artist box
 	as = document.getElementById('artist_list').getElementsByTagName('a');
 	tNi = toggleNodes.length;
 	sp = null;
@@ -56,18 +68,10 @@ function initToggleEditingTools() {
 		if( /(.*)?artist\.php.*/.test(as[i].href) ) {
 			nS = as[i].nextSibling;
 			while (nS != null) {
-				if(nS.nodeType == 3) {
-					//text nodes cannot be hidden directly, so create a new <span> (with the same content) instead
-					sp = document.createElement('span');
-					sp.innerHTML = nS.nodeValue;
-					nS.parentNode.appendChild(sp);
-					toggleNodes[tNi] = sp;
-					nS.nodeValue = '';
-				} else if(nS.nodeType == 1) {
-					nS.parentNode.appendChild(nS);
+				if(nS.nodeType == 1 || nS.nodeType == 3) {
 					toggleNodes[tNi] = nS;
+					tNi++;
 				}
-				tNi++;
 				nS = nS.nextSibling;
 			}
 		}
@@ -102,28 +106,28 @@ function runFloat() {
 }
 
 function initFloat() {
-    addartist_span.insertBefore(document.createTextNode(' '), addartist_span.firstChild);
+	addartist_span.insertBefore(document.createTextNode(' '), addartist_span.firstChild);
 
-	// link für floating erstellen
+	// link f�r floating erstellen
 	float_a = document.createElement('a');
 	float_a.href = '';
 	float_a.innerHTML = '[Float]';
 	float_a.addEventListener('click', function(e) { runFloat(); e.stopPropagation(); e.preventDefault(); }, true);
-    addartist_span.insertBefore(float_a, addartist_span.firstChild);
+	addartist_span.insertBefore(float_a, addartist_span.firstChild);
 }
 
 
 
 
 function runAddFields() {
-    var i;
+	var i;
 	for(i = 0; i < 100; i++) { unsafeWindow.AddArtistField(); }
 }
 
 function initAddFields() {
-    var a;
+	var a;
 
-    addartist_span.appendChild(document.createTextNode(' '));
+	addartist_span.appendChild(document.createTextNode(' '));
 
 	a = document.createElement('a');
 	a.href = '';
@@ -144,15 +148,15 @@ var toggleNodes = new Array();
 initToggleEditingTools();
 var autotoggle = GM_getValue("autotoggle", "false");
 if(autotoggle == 'true') {
-    runToggleEditingTools();
+	runToggleEditingTools();
 }
 GM_registerMenuCommand('What.CD Artist Helper: Turn autotoggle of editing tools on/off', function() {
-    autotoggle = GM_getValue("autotoggle", "false");
-    if(autotoggle == 'true') {
-        GM_setValue("autotoggle", "false");
-    } else {
-        GM_setValue("autotoggle", "true");
-    }
+	autotoggle = GM_getValue("autotoggle", "false");
+	if(autotoggle == 'true') {
+		GM_setValue("autotoggle", "false");
+	} else {
+		GM_setValue("autotoggle", "true");
+	}
 });
 
 //float
