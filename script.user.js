@@ -9,13 +9,6 @@
 // @date           2013-07-29
 // ==/UserScript==
 
-/*
-Changelog:
-1.0     Initial release
-1.0.1   Fix for https://what.cd
-1.0.2   Fix display issue in the artist list and toggling
-*/
-
 
 function runToggleEditingTools() {
 	var tNi;
@@ -108,7 +101,7 @@ function runFloat() {
 function initFloat() {
 	addartist_span.insertBefore(document.createTextNode(' '), addartist_span.firstChild);
 
-	// link f�r floating erstellen
+	// create link for floating
 	float_a = document.createElement('a');
 	float_a.href = '';
 	float_a.innerHTML = '[Float]';
