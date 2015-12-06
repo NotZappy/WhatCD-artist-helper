@@ -5,6 +5,9 @@
 // @author         Z4ppy
 // @include        https://ssl.what.cd/torrents.php?id=*
 // @include        https://what.cd/torrents.php?id=*
+// @grant          GM_getValue
+// @grant          GM_setValue
+// @grant          GM_registerMenuCommand
 // @version        1.0.2
 // @date           2013-07-29
 // ==/UserScript==
