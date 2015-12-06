@@ -8,8 +8,8 @@
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @grant          GM_registerMenuCommand
-// @version        1.0.2
-// @date           2013-07-29
+// @version        1.0.3
+// @date           2015-12-06
 // ==/UserScript==
 
 
